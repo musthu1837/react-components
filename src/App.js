@@ -1,23 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import { useCallback, useContext } from "react";
+import "./App.css";
+import { useModal } from "./hooks";
 
 function App() {
+  const { isVisible, openModal, closeModal } = useModal();
+
+  const onModalClose = useCallback(() => {
+    console.log("Modal is closed");
+  });
+
+  const onYesClick = useCallback(() => {
+    console.log("Yes is clicked");
+    closeModal();
+  }, [closeModal]);
+
+  const onNoClick = useCallback(() => {
+    console.log("No is clicked");
+    closeModal();
+  }, [closeModal]);
+
+  const onOpenModalClick = useCallback(() => {
+    const config = {
+      headerText: "Delete",
+      body: <p>are you sure want to delete?</p>,
+      onClose: onModalClose,
+      actions: [
+        {
+          actionText: "Yes",
+          handleAction: onYesClick,
+        },
+        {
+          actionText: "No",
+          handleAction: onNoClick,
+        },
+      ],
+    };
+
+    openModal(config);
+  }, [onModalClose, openModal, onYesClick]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={onOpenModalClick}>Open Modal</button>
+      <p>Modal is {isVisible ? "opend" : "closed"}</p>
     </div>
   );
 }
