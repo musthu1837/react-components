@@ -1,42 +1,53 @@
-import React, { useCallback, useRef } from "react";
+import React from "react";
+import { useOutsideClick } from "../../hooks";
 import "./Modal.css";
 
-function Modal({ onClose, config = {} }) {
-  const wrapperRef = useRef(null);
-  const { headerText, body, actions } = config;
+function Modal({ onClose, config }) {
+  const { title, body, actions, hasCloseIcon } = config;
 
-  const onContextOutsideClick = useCallback(
-    (event) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        onClose();
-      }
-    },
-    [onClose]
-  );
+  const { onContextOutsideClick, wrapperRef } = useOutsideClick(onClose);
 
   return (
-    <div className="modal" onClick={onContextOutsideClick}>
-      <div ref={wrapperRef} className="modal-content">
-        <span className="close" onClick={onClose}>
-          &times;
-        </span>
-        {headerText && (
-          <div className="modal-header">
-            <h2>{headerText}</h2>
+    <div className="modal-wrapper" onClick={onContextOutsideClick}>
+      <div ref={wrapperRef} className="card">
+        {hasCloseIcon && (
+          <button
+            type="button"
+            className="btn-close close"
+            aria-label="Close"
+            onClick={onClose}
+          />
+        )}
+        {title && (
+          <div className="card-header">
+            <h5 className="card-title">{title}</h5>
           </div>
         )}
-        {body && <div className="modal-body">{body}</div>}
+
+        {body && <div className="card-body">{body}</div>}
         {actions && (
-          <div className="modal-footer">
-            {actions.map((action) => (
-              <button
-                className="modal-action-button"
-                key={action.actionText}
-                onClick={action.handleAction}
-              >
-                {action.actionText}
-              </button>
-            ))}
+          <div className="card-footer">
+            <div className="card-footer-content">
+              {actions.primaryAction && (
+                <button
+                  type="button"
+                  className="btn btn-primary btn-sm"
+                  onClick={actions.primaryAction.action}
+                >
+                  {actions.primaryAction.title}
+                </button>
+              )}
+              &nbsp;&nbsp;
+              {actions.secondaryAction && (
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  onClick={actions.secondaryAction.action}
+                >
+                  {actions.secondaryAction.title}
+                </button>
+              )}
+            </div>
           </div>
         )}
       </div>
