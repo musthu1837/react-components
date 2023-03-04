@@ -1,13 +1,13 @@
-import { useCallback, useContext } from "react";
+import { useCallback } from "react";
 import "./App.css";
 import { useModal } from "./hooks";
 
 function App() {
-  const { isVisible, openModal, closeModal } = useModal();
+  const { openModal, closeModal } = useModal();
 
   const onModalClose = useCallback(() => {
     console.log("Modal is closed");
-  });
+  }, []);
 
   const onYesClick = useCallback(() => {
     console.log("Yes is clicked");
@@ -21,28 +21,85 @@ function App() {
 
   const onOpenModalClick = useCallback(() => {
     const config = {
-      headerText: "Delete",
-      body: <p>are you sure want to delete?</p>,
+      title: "Delete",
+      boddy: <p>Are you sure want to delete?</p>,
+      body: (
+        <>
+          <div className="mb-3">
+            <label className="form-label">Email address</label>
+            <input
+              type="email"
+              className="form-control"
+              id="exampleFormControlInput1"
+              placeholder="name@example.com"
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Example textarea</label>
+            <textarea
+              className="form-control"
+              id="exampleFormControlTextarea1"
+              rows="3"
+            ></textarea>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Email address</label>
+            <input
+              type="email"
+              className="form-control"
+              id="exampleFormControlInput1"
+              placeholder="name@example.com"
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Example textarea</label>
+            <textarea
+              className="form-control"
+              id="exampleFormControlTextarea1"
+              rows="3"
+            ></textarea>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Email address</label>
+            <input
+              type="email"
+              className="form-control"
+              id="exampleFormControlInput1"
+              placeholder="name@example.com"
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Example textarea</label>
+            <textarea
+              className="form-control"
+              id="exampleFormControlTextarea1"
+              rows="3"
+            ></textarea>
+          </div>
+        </>
+      ),
       onClose: onModalClose,
-      actions: [
-        {
-          actionText: "Yes",
-          handleAction: onYesClick,
+      hasCloseIcon: true,
+      actions: {
+        primaryAction: {
+          title: "Yes",
+          action: onYesClick,
         },
-        {
-          actionText: "No",
-          handleAction: onNoClick,
+        secondaryAction: {
+          title: "No",
+          action: onNoClick,
         },
-      ],
+      },
     };
 
     openModal(config);
-  }, [onModalClose, openModal, onYesClick]);
+  }, [onModalClose, openModal, onYesClick, onNoClick]);
 
   return (
     <div className="App">
-      <button onClick={onOpenModalClick}>Open Modal</button>
-      <p>Modal is {isVisible ? "opend" : "closed"}</p>
+      <button className="btn btn-primary btn-sm" onClick={onOpenModalClick}>
+        Open Modal
+      </button>
     </div>
   );
 }
