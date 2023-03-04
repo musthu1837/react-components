@@ -3,7 +3,7 @@ import "./App.css";
 import { useModal } from "./hooks";
 
 function App() {
-  const { isVisible, openModal, closeModal } = useModal();
+  const { openModal, closeModal } = useModal();
 
   const onModalClose = useCallback(() => {
     console.log("Modal is closed");
@@ -97,8 +97,9 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={onOpenModalClick}>Open Modal</button>
-      <p>Modal is {isVisible ? "opend" : "closed"}</p>
+      <button className="btn btn-primary btn-sm" onClick={onOpenModalClick}>
+        Open Modal
+      </button>
     </div>
   );
 }
