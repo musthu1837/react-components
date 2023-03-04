@@ -1,16 +1,45 @@
-import React from "react";
-import { useOutsideClick } from "../../hooks";
+import React, { useCallback } from "react";
+import { useEscapeKey, useOutsideClick } from "../../hooks";
 import "./Modal.css";
 
-function Modal({ onClose, config }) {
-  const { title, body, actions, hasCloseIcon } = config;
+function ModalHeader(props) {
+  return (
+    <div className="card-header">
+      <h5 className="card-title">{props.children}</h5>
+    </div>
+  );
+}
 
-  const { onContextOutsideClick, wrapperRef } = useOutsideClick(onClose);
+function ModalBody(props) {
+  return <div className="card-body">{props.children}</div>;
+}
+
+function ModalFooter(props) {
+  return <div className="card-footer">{props.children}</div>;
+}
+
+function ModalActions(props) {
+  return (
+    <div className="card-footer">
+      <div className="card-footer-content">{props.children}</div>
+    </div>
+  );
+}
+
+function Modal({ onClose, children, canClose }) {
+  const onDismiss = useCallback(() => {
+    if (canClose && onClose) {
+      onClose();
+    }
+  }, [canClose, onClose]);
+
+  useEscapeKey(onDismiss);
+  const { onContextOutsideClick, wrapperRef } = useOutsideClick(onDismiss);
 
   return (
     <div className="modal-wrapper" onClick={onContextOutsideClick}>
       <div ref={wrapperRef} className="card">
-        {hasCloseIcon && (
+        {canClose && (
           <button
             type="button"
             className="btn-close close"
@@ -18,41 +47,10 @@ function Modal({ onClose, config }) {
             onClick={onClose}
           />
         )}
-        {title && (
-          <div className="card-header">
-            <h5 className="card-title">{title}</h5>
-          </div>
-        )}
-
-        {body && <div className="card-body">{body}</div>}
-        {actions && (
-          <div className="card-footer">
-            <div className="card-footer-content">
-              {actions.primaryAction && (
-                <button
-                  type="button"
-                  className="btn btn-primary btn-sm"
-                  onClick={actions.primaryAction.action}
-                >
-                  {actions.primaryAction.title}
-                </button>
-              )}
-              &nbsp;&nbsp;
-              {actions.secondaryAction && (
-                <button
-                  type="button"
-                  className="btn btn-secondary btn-sm"
-                  onClick={actions.secondaryAction.action}
-                >
-                  {actions.secondaryAction.title}
-                </button>
-              )}
-            </div>
-          </div>
-        )}
+        {children}
       </div>
     </div>
   );
 }
 
-export default Modal;
+export { Modal, ModalHeader, ModalBody, ModalFooter, ModalActions };
