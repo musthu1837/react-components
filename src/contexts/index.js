@@ -1,3 +1,1 @@
-import ModalProvider, { ModalContext } from "./ModalContext";
-
-export { ModalContext, ModalProvider };
+export * from "./LoaderContext.js";

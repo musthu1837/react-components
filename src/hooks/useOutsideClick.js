@@ -5,7 +5,9 @@ function useOutsideClick(handleOutSideClick) {
   const onContextOutsideClick = useCallback(
     (event) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        handleOutSideClick();
+        if (handleOutSideClick) {
+          handleOutSideClick();
+        }
       }
     },
     [handleOutSideClick]
