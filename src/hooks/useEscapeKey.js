@@ -4,9 +4,8 @@ const KEY_NAME_ESC = "Escape";
 const KEY_EVENT_TYPE = "keyup";
 
 /**
- * author Github@musthu1837
- * useEscapeKey hook is used to perform some action on escape key press
- * Triggers call back when user press escape key
+ * @author musthu1837@github
+ * @param {*} handleAction called when user presses escape key
  */
 function useEscapeKey(handleAction) {
   const handleEscKey = useCallback(

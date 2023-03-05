@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { LoaderContext } from "../contexts";
 
 /**
- * author Github@musthu1837
- * useLoader hook is used to get LoaderContext value
+ * @author musthu1837@github
+ * @returns { isLoading, setLoading } value of LoaderContext
  */
 function useLoader() {
   return useContext(LoaderContext);

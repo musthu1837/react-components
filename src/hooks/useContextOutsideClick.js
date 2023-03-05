@@ -1,10 +1,9 @@
 import { useCallback, useRef } from "react";
 
 /**
- * author Github@musthu1837
- * useContextOutsideClick hook is used to perform some action
- * when user clicks outside of an element
- * @param handleOutSideClick
+ * @author musthu1837@github
+ * @param {*} handleOutSideClick called when user clicks outside of an element
+ * @returns { onContextOutsideClick, eleRef }
  */
 function useContextOutsideClick(handleOutSideClick) {
   const eleRef = useRef(null);
