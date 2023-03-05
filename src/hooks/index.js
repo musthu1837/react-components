@@ -1,3 +1,3 @@
-export * from "./useOutsideClick";
+export * from "./useContextOutsideClick";
 export * from "./useEscapeKey";
 export * from "./useLoader";

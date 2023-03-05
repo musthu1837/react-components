@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { useEscapeKey, useOutsideClick } from "../../hooks";
+import { useEscapeKey, useContextOutsideClick } from "../../hooks";
 import "./Modal.css";
 
 function ModalHeader(props) {
@@ -34,11 +34,11 @@ function Modal({ onClose, children, canClose }) {
   }, [canClose, onClose]);
 
   useEscapeKey(onDismiss);
-  const { onContextOutsideClick, wrapperRef } = useOutsideClick(onDismiss);
+  const { onContextOutsideClick, eleRef } = useContextOutsideClick(onDismiss);
 
   return (
     <div className="modal-wrapper" onClick={onContextOutsideClick}>
-      <div ref={wrapperRef} className="card">
+      <div ref={eleRef} className="card">
         {canClose && (
           <button
             type="button"
